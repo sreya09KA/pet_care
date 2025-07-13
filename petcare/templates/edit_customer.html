@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        .form-container {
+            width: 80%;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Edit Customer Profile</h1>
+    <form method="post" action="{% url 'edit_customer' customer.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Profile Picture -->
+        <div class="col-md-12">
+            <img src="/media/{{ customer.profile_pic }}" style="height: 150px; border-radius: 50%; margin-bottom: 15px;" alt="User Profile">
+            <label for="remove_pic">
+                <input type="checkbox" name="remove_pic" id="remove_pic"> Remove current profile picture
+            </label>
+        </div>
+        
+        <!-- File input container (initially hidden) -->
+        <div id="profile_pic_container" style="display: none; margin-top: 15px;">
+            <label for="profile_pic">Profile Pic:</label>
+            <input type="file" name="profile_pic" class="form-control" id="profile_pic">
+        </div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const removePicCheckbox = document.getElementById('remove_pic');
+                const profilePicContainer = document.getElementById('profile_pic_container');
+                const profilePicInput = document.getElementById('profile_pic');
+        
+                // Event listener for checkbox
+                removePicCheckbox.addEventListener('change', function () {
+                    if (this.checked) {
+                        profilePicContainer.style.display = 'block'; // Show file input
+                        profilePicInput.setAttribute('required', 'required'); // Make file input required
+                    } else {
+                        profilePicContainer.style.display = 'none'; // Hide file input
+                        profilePicInput.removeAttribute('required'); // Remove required attribute
+                    }
+                });
+            });
+        </script>
+        
+        <!-- First Name -->
+        <label for="first_name">First Name:</label>
+        <input type="text" name="first_name" value="{{ customer.user.first_name }}" class="form-control" id="first_name" required>
+
+        <!-- Last Name -->
+        <label for="last_name">Last Name:</label>
+        <input type="text" name="last_name" value="{{ customer.user.last_name }}" class="form-control" id="last_name" required>
+
+        <!-- Email -->
+        <label for="email">Email:</label>
+        <input type="email" name="email" value="{{ customer.user.email }}" class="form-control" id="email" required>
+
+        <!-- Phone -->
+        <label for="phone">Phone:</label>
+        <input type="text" name="phone" value="{{ customer.phone }}" class="form-control" id="phone" required>
+
+        <!-- Address -->
+        <label for="address">Address:</label>
+        <input type="text" name="address" value="{{ customer.address }}" class="form-control" id="address" required>
+
+        <!-- City -->
+        <label for="city">City:</label>
+        <input type="text" name="city" value="{{ customer.city }}" class="form-control" id="city" required>
+
+        <!-- Pincode -->
+        <label for="pincode">Pincode:</label>
+        <input type="text" name="pincode" value="{{ customer.pincode }}" class="form-control" id="pincode" required>
+
+        <h3>Change Password</h3>
+        
+        <!-- New Password -->
+        <label for="new_password">New Password:</label>
+        <input type="password" name="new_password" class="form-control" id="new_password">
+
+        <!-- Confirm New Password -->
+        <label for="confirm_password">Confirm New Password:</label>
+        <input type="password" name="confirm_password" class="form-control" id="confirm_password">
+
+        <button type="submit">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

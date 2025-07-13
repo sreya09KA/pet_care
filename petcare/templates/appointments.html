@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/appointment.css' %}">
+
+<!-- Adding inline CSS for table borders or you can move this to your CSS file -->
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black; /* Border around each cell */
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2; /* Optional: A light gray background for the header */
+    }
+    .center-table {
+        margin: auto;
+        width: 80%; /* Adjust width as necessary */
+    }
+</style>
+
+<table class="center-table">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Services</th>
+            <th>Doctor</th>
+            <th>Service Begin Date</th>
+            <th>Service End Date</th>
+            <th>Pet Name</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in pet %}
+        <tr>
+            <td>{{ i.user }}</td>
+            <td>{{ i.services }}</td>
+            <td>{{ i.doctor.user.first_name }}</td>
+            <td>{{ i.arrival_date }}</td>
+            <td>{{ i.departure_date }}</td>
+            <td>{{ i.pet_name }}</td>
+            <td>
+                {% if i.payment_status %}
+                    Booked
+                {% else %}
+                    Payment Pending <a href="{% url 'payment' i.id %}">Pay</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

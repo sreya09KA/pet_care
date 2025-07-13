@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <style>
+        /* Page styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f6f8;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .admin {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .admin:hover {
+            background-color: #0056b3;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e2e6ea;
+        }
+
+        /* Status and Payment Badge styles */
+        .status-badge, .payment-badge {
+            padding: 5px 10px;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .status-confirmed {
+            background-color: #28a745;
+        }
+
+        .status-pending {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .payment-paid {
+            background-color: #17a2b8;
+        }
+
+        .payment-unpaid {
+            background-color: #dc3545;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <a class="admin" href="{% url 'admin:index' %}">Admin Panel</a>
+    <h1>All Bookings</h1>
+
+    <!-- Search Form -->
+    <form method="get" style="margin-bottom: 20px;">
+        <label for="query">Customer Name:</label>
+        <input type="text" id="query" name="query" placeholder="Search by customer name" value="{{ query }}">
+
+        <label for="date">Service Date:</label>
+        <input type="date" id="date" name="date" value="{{ date_filter }}">
+
+        <button type="submit">Search</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>User</th>
+            <th>Doctor</th>
+            <th>Service Begin Date</th>
+            <th>Service End Date</th>
+            <th>Service</th>
+            <th>Pet Name</th>
+            <th>Pet Type</th>
+            <th>Breed</th>
+            <th>Age</th>
+            <th>Weight</th>
+            <th>Sex</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Payment Status</th>
+        </tr>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.user.username }}</td>
+            <td>
+                {% if booking.doctor %}
+                    {{ booking.doctor.user.username }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>{{ booking.arrival_date }}</td>
+            <td>{{ booking.departure_date }}</td>
+            <td>{{ booking.services }}</td>
+            <td>{{ booking.pet_name }}</td>
+            <td>{{ booking.pet_type }}</td>
+            <td>{{ booking.breed }}</td>
+            <td>{{ booking.age }}</td>
+            <td>{{ booking.weight }}</td>
+            <td>{{ booking.sex }}</td>
+            <td>{{ booking.description }}</td>
+            <td>
+                <span class="status-badge {% if booking.status %}status-confirmed{% else %}status-pending{% endif %}">
+                    {% if booking.status %}Confirmed{% else %}Pending{% endif %}
+                </span>
+            </td>
+            <td>
+                <span class="payment-badge {% if booking.payment_status %}payment-paid{% else %}payment-unpaid{% endif %}">
+                    {% if booking.payment_status %}Paid{% else %}Unpaid{% endif %}
+                </span>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Booking Successful</div>
+                    <div class="card-body text-center">
+                        <h3>Your booking at SK Pet's Care has been successfully completed!</h3>
+                        <p>Thank you for choosing our services. We look forward to taking care of your pet.</p>
+                        <p>If you have any questions or need further assistance, please feel free to contact us.</p>
+                        <a href="{% url 'index' %}" class="btn btn-primary">Go to Home page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

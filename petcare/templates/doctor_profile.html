@@ -1,0 +1,138 @@
+{% extends 'doctor_dashboard_base.html' %}  
+{% load static %}
+
+{% block style %}
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        .site-section {
+            padding: 30px 0;
+        }
+
+        .container {
+            max-width: 700px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: auto;
+        }
+
+        /* Header Styling */
+        .h3 {
+            color: rgb(44, 47, 87);
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        /* Profile Image */
+        .col-md-12 img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #ddd;
+        }
+
+        /* Profile Name */
+        .text-black {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        /* Profile Details */
+        .form-group.row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-group h6 {
+            font-size: 1em;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        /* Edit Profile Link */
+        .col-md-12 a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: rgb(44, 47, 87);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .col-md-12 a:hover {
+            background-color:rgb(156, 120, 249);
+        }
+
+    </style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="site-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="h3 mb-3 text-black" style="text-align: center;">Doctor Profile</h2>
+            </div>
+
+            <div class="col-md-12">
+                <div style="padding: 30px; border: 1px solid #e0e0e0;">
+                    <div class="form-group row" style="text-align: center;">
+                        <div class="col-md-12">
+                            <img src="/media/{{user.profile_pic}}" style="height: 150px; border-radius: 50%; margin-bottom: 15px;" alt="User Profile">
+                        </div>
+                        <div class="col-md-12">
+                            <h5 class="text-black" style="text-transform: capitalize; font-size: 24px;">{{ user.user.first_name }} {{ user.user.last_name }}</h5>
+                        </div>
+                    </div>
+
+                    <!-- Email and Phone display -->
+                    <div class="form-group row" style="justify-content: center;">
+
+                        <!-- Email section with label and value on the same line -->
+                        <div class="col-md-12 text-left mb-3">
+                            <h6 class="text-black d-inline" style="font-size: 18px;">Email:{{ user.user.email }}</h6>
+                        </div>
+
+                        <!-- Phone section with label and value on separate lines -->
+                        <div class="col-md-12 text-left">
+                            <h6 class="text-black" style="font-size: 18px;">Phone no:{{ user.phone }}</h6>
+                        </div>
+
+                        <!-- address section with label and value on separate lines -->
+                        <div class="col-md-12 text-left">
+                            <h6 class="text-black" style="font-size: 18px;">Address:{{ user.address }}</h6>
+                        </div>
+                        
+                        <!-- speacialisation section with label and value on separate lines -->
+                        <div class="col-md-12 text-left">
+                            <h6 class="text-black" style="font-size: 18px;">Speacialisation:{{ user.speacialisation }}</h6>
+                        </div>                        
+                    
+                        <div class="col-md-12 text-left">
+                            <a href="{% url 'edit_doctor_profile' %}">Edit profile</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %} 

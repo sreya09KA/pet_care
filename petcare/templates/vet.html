@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url(/static/images/bg_2.jpg);" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end">
+          <div class="col-md-9 ftco-animate pb-5">
+          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="{% url 'index' %}">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Veterinarian <i class="ion-ios-arrow-forward"></i></span></p>
+            <h1 class="mb-0 bread">Meet Our Veterinary Doctors </h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section bg-light">
+		<div class="container">
+			<div class="row">
+				{% for i in doctors %}
+				<div class="col-md-6 col-lg-3 ftco-animate">
+					<div class="staff">
+						<div class="img-wrap d-flex align-items-stretch">
+							<div class="img align-self-stretch" style="background-image: url(/media/{{i.profile_pic}});"></div>
+						</div>
+						<div class="text pt-3 px-3 pb-4 text-center">
+							<h3>Dr. {{i.user.first_name}} {{i.user.last_name}}</h3>
+							<span class="position mb-2">{{i.speacialisation}}</span>
+							<div class="faded">
+								<p>If you are looking for an expert {{i.speacialisation}} doctor for your pet then get in touch with Dr {{i.user.first_name}} {{i.doctor.user.last_name}}</p>
+								<ul class="ftco-social text-center">
+					
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+				<!-- <div class="col-md-6 col-lg-3 ftco-animate">
+					<div class="staff">
+						<div class="img-wrap d-flex align-items-stretch">
+							<div class="img align-self-stretch" style="background-image: url(/static/images/staff-2.jpg);"></div>
+						</div>
+						<div class="text pt-3 px-3 pb-4 text-center">
+							<h3>Dr.Rose Mariam</h3>
+							<span class="position mb-2">Life &amp; Business Coach</span>
+							<div class="faded">
+								<p>This doctor is an expert in animal care and provide medical care to them</p>
+								<ul class="ftco-social text-center">
+					
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3 ftco-animate">
+					<div class="staff">
+						<div class="img-wrap d-flex align-items-stretch">
+							<div class="img align-self-stretch" style="background-image: url(/static/images/staff-3.jpg);"></div>
+						</div>
+						<div class="text pt-3 px-3 pb-4 text-center">
+							<h3>Dr.Mathew thomson</h3>
+							<span class="position mb-2">Executive Coach</span>
+							<div class="faded">
+								<p>If you are looking for an expert veterinary doctor for your pet then get in touch with Dr Mathew Thomson.</p>
+								<ul class="ftco-social text-center">
+					
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3 ftco-animate">
+					<div class="staff">
+						<div class="img-wrap d-flex align-items-stretch">
+							<div class="img align-self-stretch" style="background-image: url(/static/images/staff-4.jpg);"></div>
+						</div>
+						<div class="text pt-3 px-3 pb-4 text-center">
+							<h3>Stephan Lal</h3>
+							<span class="position mb-2">Health Coach</span>
+							<div class="faded">
+								<p>I am an ambitious workaholic, but apart from that, pretty simple person.</p>
+								<ul class="ftco-social text-center">
+					
+				  </ul>
+			  </div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-lg-3 ftco-animate">
+					<div class="staff">
+						<div class="img-wrap d-flex align-items-stretch">
+							<div class="img align-self-stretch" style="background-image: url(/static/images/staff-5.jpg);"></div>
+						</div>
+						<div class="text pt-3 px-3 pb-4 text-center">
+							<h3>Anna Maria</h3>
+							<span class="position mb-2">Executive Coach</span>
+							<div class="faded">
+								<p>I am an ambitious workaholic, but apart from that, pretty simple person.</p>
+								<ul class="ftco-social text-center">
+					
+				  </ul>
+			  </div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3 ftco-animate">
+					<div class="staff">
+						<div class="img-wrap d-flex align-items-stretch">
+							<div class="img align-self-stretch" style="background-image: url(/static/images/staff-6.jpg);"></div>
+						</div>
+						<div class="text pt-3 px-3 pb-4 text-center">
+							<h3>Caroline Grace</h3>
+							<span class="position mb-2">Health Coach</span>
+							<div class="faded">
+								<p>I am an ambitious workaholic, but apart from that, pretty simple person.</p>
+								<ul class="ftco-social text-center">
+					
+				  </ul>
+			  </div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3 ftco-animate">
+					<div class="staff">
+						<div class="img-wrap d-flex align-items-stretch">
+							<div class="img align-self-stretch" style="background-image: url(/static/images/staff-7.jpg);"></div>
+						</div>
+						<div class="text pt-3 px-3 pb-4 text-center">
+							<h3>Ian Smith</h3>
+							<span class="position mb-2">Health Coach</span>
+							<div class="faded">
+								<p>I am an ambitious workaholic, but apart from that, pretty simple person.</p>
+								<ul class="ftco-social text-center">
+					
+				  </ul>
+			  </div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-lg-3 ftco-animate">
+					<div class="staff">
+						<div class="img-wrap d-flex align-items-stretch">
+							<div class="img align-self-stretch" style="background-image: url(/static/images/staff-8.jpg);"></div>
+						</div>
+						<div class="text pt-3 px-3 pb-4 text-center">
+							<h3>Fred Henderson</h3>
+							<span class="position mb-2">Executive Coach</span>
+							<div class="faded">
+								<p>I am an ambitious workaholic, but apart from that, pretty simple person.</p>
+								<ul class="ftco-social text-center">
+					
+				  </ul>
+			  </div>
+						</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</section>
+
+    {% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    <style>
+        /* Container styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .table-container {
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        td {
+            color: #555;
+        }
+
+        /* Profile picture styling */
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Link styling */
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .table-container {
+                padding: 10px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            .profile-pic {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h1>Customers</h1>
+    <table border="1">
+        <tr>
+            <th>Profile Picture</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>Pincode</th>
+            <th>Date Joined</th>
+        </tr>
+        {% for customer in customers %}
+        <tr>
+            <td>
+                {% if customer.profile_pic %}
+                    <img src="{{ customer.profile_pic.url }}" alt="{{ customer.get_name }}" class="profile-pic">
+                {% else %}
+                    <img src="{% static 'images/gallery-4.jpg' %}" alt="Default Profile" class="profile-pic">
+                {% endif %}
+            </td>
+            <td>{{ customer.get_name }}</td>
+            <td>{{ customer.user.email }}</td>
+            <td>{{ customer.phone }}</td>
+            <td>{{ customer.city }}</td>
+            <td>{{ customer.pincode }}</td>
+            <td>{{ customer.date_joined }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

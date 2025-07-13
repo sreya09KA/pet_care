@@ -1,0 +1,198 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const serviceSelect = document.getElementById('service');
+        const arrivalDateLabel = document.querySelector('label[for="arrival-date"]');
+        const departureDateLabel = document.querySelector('label[for="departure-date"]');
+        const arrivalDateInput = document.getElementById('arrival-date');
+        const departureDateInput = document.getElementById('departure-date');
+
+        // Function to set the minimum date to the current date and time
+        function setMinDate(input) {
+            const now = new Date();
+            const offset = now.getTimezoneOffset() * 60000; // Adjust for local timezone
+            const localISOTime = new Date(now - offset).toISOString().slice(0, 16); // Format as "YYYY-MM-DDTHH:MM"
+            input.min = localISOTime;
+        }
+
+        // Apply the minimum date restriction to both arrival and departure dates initially
+        setMinDate(arrivalDateInput);
+        setMinDate(departureDateInput);
+
+        // Event listener for arrival date change
+        arrivalDateInput.addEventListener('change', function () {
+            if (arrivalDateInput.value) {
+                // Set the departure date minimum to the selected arrival date
+                departureDateInput.min = arrivalDateInput.value;
+                // Clear previous value if it was before the new minimum
+                if (departureDateInput.value < departureDateInput.min) {
+                    departureDateInput.value = '';
+                }
+            } else {
+                setMinDate(departureDateInput); // Reset to today's date if no arrival date is selected
+            }
+        });
+
+        // Event listener for departure date change
+        departureDateInput.addEventListener('change', function () {
+            if (departureDateInput.value && departureDateInput.value < arrivalDateInput.value) {
+                alert("Departure date cannot be before arrival date.");
+                departureDateInput.value = '';
+            }
+        });
+
+        // Update labels based on service selection
+        function updateLabels() {
+            const selectedService = serviceSelect.value;
+
+            if (selectedService === 'Veterinary') {
+                arrivalDateLabel.innerText = 'Preferred Appointment Date and Time';
+                departureDateLabel.innerText = 'Optional Departure Date (Not Required for Veterinary)';
+            } else {
+                arrivalDateLabel.innerText = 'Preferred Arrival Date';
+                departureDateLabel.innerText = 'Preferred Departure Date';
+            }
+        }
+
+        // Event listeners for other actions
+        serviceSelect.addEventListener('change', updateLabels);
+        arrivalDateInput.addEventListener('focus', () => setMinDate(arrivalDateInput));
+        departureDateInput.addEventListener('focus', () => setMinDate(departureDateInput));
+
+        // Initial call to set labels and restrictions
+        updateLabels();
+    });
+
+    // Form submission handler
+    // function handleFormSubmission() {
+    //     const service = document.getElementById('service').value;
+    //     const departureDateInput = document.getElementById('departure-date');
+
+    //     if (service === 'Veterinary') {
+    //         departureDateInput.required = false; // Not required for veterinary services
+    //     } else {
+    //         departureDateInput.required = true; // Required for other services
+    //     }
+    //     return true; // Allow form submission
+    // }
+</script>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Booking Form</div>
+                <div class="card-body">
+                    <form id="booking-form" action="{% url 'book' %}" method="POST" onsubmit="return handleFormSubmission()">
+                        {% csrf_token %}
+                    
+                        <h3>Information</h3>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                    
+                        <h3>Select Service</h3>
+                        <div class="form-group">
+                            <label for="service">Service</label>
+                            <select class="form-control" id="service" name="service" required>
+                                <option selected disabled>~ Select a service ~</option>
+                                <option value="Boarding">Boarding</option>
+                                <option value="Daycare">Daycare</option>
+                                <option value="Grooming">Grooming</option>
+                                <option value="Nutrition">Nutrition</option>
+                                <option value="Veterinary">Veterinary Service</option>
+                            </select>
+                        </div>
+                    
+                        <h3>Scheduling Information</h3>
+                        <div class="form-group arrival">
+                            <label for="arrival-date">Preferred Arrival Date</label>
+                            <input type="datetime-local" class="form-control" id="arrival-date" name="arrival-date" required>
+                        </div>
+                        <div class="form-group departure" id="departure-container" style="display: block;">
+                            <label for="departure-date">Preferred Departure Date</label>
+                            <input type="datetime-local" class="form-control" id="departure-date" name="departure-date">
+                        </div>
+                    
+                        <h3>Your Pet's Information</h3>
+                        <div class="form-group">
+                            <label for="pet-name">Pet's Name</label>
+                            <input type="text" class="form-control" id="pet-name" name="pet-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pet-type">Type of Pet</label>
+                            <select class="form-control" id="pet-type" name="pet-type">
+                                <option value="dog">Dog</option>
+                                <option value="cat">Cat</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="breed">Breed</label>
+                            <input type="text" class="form-control" id="breed" name="breed" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" class="form-control" id="age" name="age" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="weight">Weight</label>
+                            <input type="number" class="form-control" id="weight" name="weight" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="problem">Problem</label>
+                            <input type="text" class="form-control" id="problem" name="problem" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sex">Sex of Pet</label>
+                            <select class="form-control" id="sex" name="sex">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                    
+                        <div class="form-group" id="doctor-container" style="display: none;">
+                            <label for="doctor">Doctor</label>
+                            <select class="form-control" name="doctor" id="doctor">
+                                {% for i in doctors %}
+                                <option value="{{ i.id }}">{{ i.user.first_name }} {{ i.user.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                    </form>
+                    
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const serviceSelect = document.getElementById('service');
+                            const doctorContainer = document.getElementById('doctor-container');
+                            const departureContainer = document.getElementById('departure-container');
+                            const departureInput = document.getElementById('departure-date');
+                            const doctorInput = document.getElementById('doctor');
+                    
+                            // Event listener for the service dropdown
+                            serviceSelect.addEventListener('change', function () {
+                                if (this.value === 'Veterinary') {
+                                    doctorContainer.style.display = 'block'; // Show the doctor field
+                                    doctorInput.setAttribute('required', 'required'); // Make it required
+                                    departureContainer.style.display = 'none';
+                                    departureInput.removeAttribute('required');
+                                } else {
+                                    doctorContainer.style.display = 'none'; // Hide the doctor field
+                                    doctorInput.removeAttribute('required'); // Remove the required attribute
+                                    departureContainer.style.display = 'block';
+                                    departureInput.setAttribute('required','required');
+                                }
+                            });
+                        });
+                    </script>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

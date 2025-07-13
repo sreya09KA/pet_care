@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Awaiting Confirmation</div>
+                <div class="card-body text-center">
+                    <h3>Your request has not been accepted by our admins</h3>
+                    <p>They will soon look into it and give you a feedback</p>
+                    <p>We thank you for your patience</p>
+                    <a href="{% url 'index' %}" class="btn btn-primary">Go to Home page</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br>
+
+{% endblock %}
